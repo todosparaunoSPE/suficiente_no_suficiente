@@ -159,19 +159,29 @@ try:
         # Crear una columna combinada para las opciones de filtro
         df_filtrado['Combinación'] = df_filtrado['Evaluación de la pensión'] + ', ' + df_filtrado['Estado de jubilación']
 
-        # Multiselect para filtrar por la combinación de "Evaluación de la pensión" y "Estado de jubilación"
+        # Multiselect para filtrar por la combinación de "Evaluación de la pensión" y "Estado de Jubilación"
         combinacion_filter = st.multiselect(
             "Filtrar por Evaluación de la pensión y Estado de Jubilación",
-            options=df_filtrado['Combinación'].unique(),
-            default=df_filtrado['Combinación'].unique()
+            options=[
+                "Suficiente, Está en proceso de llegar a la jubilación",
+                "Suficiente, Ya ha alcanzado la edad de jubilación",
+                "No suficiente, Está en proceso de llegar a la jubilación",
+                "No suficiente, Ya ha alcanzado la edad de jubilación"
+            ],
+            default=[
+                "Suficiente, Está en proceso de llegar a la jubilación",
+                "Suficiente, Ya ha alcanzado la edad de jubilación",
+                "No suficiente, Está en proceso de llegar a la jubilación",
+                "No suficiente, Ya ha alcanzado la edad de jubilación"
+            ]
         )
         df_filtrado_combinado = df_filtrado[df_filtrado['Combinación'].isin(combinacion_filter)]
 
         st.write("Resultados filtrados por Evaluación y Estado de Jubilación:")
         st.write(df_filtrado_combinado)
 
-        # Gráfico de barras para "Evaluación de la pensión"
-        evaluacion_counts = df_filtrado_combinado['Evaluación de la pensión'].value_counts().reset_index()
+        # Gráfico de barras para "Distribución de la Evaluación de la Pensión"
+        evaluacion_counts = df_filtrado['Evaluación de la pensión'].value_counts().reset_index()
         evaluacion_counts.columns = ['Evaluación', 'Número de Trabajadores']
 
         fig1 = px.bar(
