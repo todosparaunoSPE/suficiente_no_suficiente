@@ -205,3 +205,9 @@ if all(col in df.columns for col in required_columns):
 
 else:
     st.error("El archivo no contiene las columnas necesarias.")
+
+
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Javier Horacio Pérez Ricárdez**")
+st.sidebar.markdown("© 2024 Todos los derechos reservados.")
