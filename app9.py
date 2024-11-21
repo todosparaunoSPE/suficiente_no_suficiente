@@ -6,7 +6,6 @@ Created on Thu Nov 21 12:12:45 2024
 """
 
 
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -205,6 +204,20 @@ try:
             title="Distribución de la Evaluación y Estado de Jubilación"
         )
         st.plotly_chart(fig2)
+
+        # Resumen de los resultados
+        st.write("### Resumen de los resultados:")
+
+        resumen_evaluacion = df_filtrado['Evaluación de la pensión'].value_counts().reset_index()
+        resumen_evaluacion.columns = ['Evaluación', 'Número de Trabajadores']
+        st.write("#### Resumen por Evaluación de la pensión:")
+        st.write(resumen_evaluacion)
+
+        resumen_combinacion = df_filtrado_combinado['Combinación'].value_counts().reset_index()
+        resumen_combinacion.columns = ['Combinación', 'Número de Trabajadores']
+        st.write("#### Resumen por Combinación de Evaluación y Estado de Jubilación:")
+        st.write(resumen_combinacion)
+
     else:
         st.error("El archivo no contiene todas las columnas necesarias.")
 except FileNotFoundError:
