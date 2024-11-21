@@ -222,3 +222,8 @@ try:
         st.error("El archivo no contiene todas las columnas necesarias.")
 except FileNotFoundError:
     st.error("El archivo 'dataset.xlsx' no se encuentra en el directorio.")
+
+
+st.sidebar.markdown("Javier Horacio Pérez Ricárdez")
+st.sidebar.markdown("© 2024 Todos los derechos reservados.")
+
