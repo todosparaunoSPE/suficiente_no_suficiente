@@ -70,13 +70,10 @@ with st.sidebar:
         - El número total de trabajadores para cada combinación de evaluación y estado de jubilación.
     """)
 
-# Subir archivo XLSX por parte del usuario
-uploaded_file = st.file_uploader("Sube tu archivo Excel", type="xlsx")
-
-if uploaded_file is not None:
-    # Leer los datos del archivo Excel
-    df = pd.read_excel(uploaded_file)
-
+# Cargar automáticamente el archivo Excel (dataset.xlsx)
+file_path = "dataset.xlsx"
+try:
+    df = pd.read_excel(file_path)
     # Limpiar los nombres de las columnas eliminando espacios adicionales
     df.columns = df.columns.str.strip()
 
@@ -180,34 +177,25 @@ if uploaded_file is not None:
         fig1 = px.bar(
             evaluacion_counts, 
             x='Evaluación', 
-            y='Número de Trabajadores',
-            labels={'Evaluación': 'Evaluación de la Pensión', 'Número de Trabajadores': 'Cantidad'},
-            title="Distribución de Evaluación de la Pensión"
+            y='Número de Trabajadores', 
+            color='Evaluación',
+            title="Distribución de la Evaluación de la Pensión"
         )
-
         st.plotly_chart(fig1)
 
-        # Gráfico de barras para la combinación de Evaluación y Estado de Jubilación
-        combinacion_counts = df_filtrado_combinado.groupby(['Evaluación de la pensión', 'Estado de jubilación']).size().reset_index(name='Número de Trabajadores')
+        # Gráfico de barras para "Combinación de Evaluación y Estado de Jubilación"
+        combinacion_counts = df_filtrado_combinado['Combinación'].value_counts().reset_index()
+        combinacion_counts.columns = ['Combinación', 'Número de Trabajadores']
+
         fig2 = px.bar(
             combinacion_counts, 
-            x='Evaluación de la pensión', 
-            y='Número de Trabajadores',
-            color='Estado de jubilación',
-            barmode='stack',
-            labels={'Evaluación de la pensión': 'Evaluación de la Pensión', 'Número de Trabajadores': 'Cantidad'},
-            title="Distribución de Evaluación y Estado de Jubilación"
+            x='Combinación', 
+            y='Número de Trabajadores', 
+            color='Combinación',
+            title="Distribución de la Evaluación y Estado de Jubilación"
         )
-
-        # Personalizar la visualización del gráfico
-        fig2.update_traces(texttemplate='%{y}', textposition='outside', hovertemplate='%{x}: %{y:,}')
         st.plotly_chart(fig2)
-
     else:
-        st.error("El archivo Excel no contiene las columnas requeridas.")
-
-
-
-st.sidebar.markdown("---")
-st.sidebar.markdown("**Javier Horacio Pérez Ricárdez**")
-st.sidebar.markdown("© 2024 Todos los derechos reservados.")
+        st.error("El archivo no contiene todas las columnas necesarias.")
+except FileNotFoundError:
+    st.error("El archivo 'dataset.xlsx' no se encuentra en el directorio.")
