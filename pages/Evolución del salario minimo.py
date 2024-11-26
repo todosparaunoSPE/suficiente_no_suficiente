@@ -44,6 +44,16 @@ df = pd.DataFrame(data)
 #st.set_page_config(page_title="Evolución Salarial", layout="wide")
 st.title("Gráfico Interactivo de Evolución del Salario Mínimo")
 
+
+# Filtros: Selección de rango de años
+st.sidebar.header("Filtros")
+min_year, max_year = st.sidebar.slider(
+    "Selecciona el rango de años", 
+    min_value=int(df["Año"].min()), 
+    max_value=int(df["Año"].max()), 
+    value=(2010, 2025)
+)
+
 # Barra lateral de ayuda
 st.sidebar.header("Ayuda")
 st.sidebar.write("""
@@ -67,14 +77,7 @@ st.sidebar.write("""
     - © 2024 Todos los derechos reservados.
 """)
 
-# Filtros: Selección de rango de años
-st.sidebar.header("Filtros")
-min_year, max_year = st.sidebar.slider(
-    "Selecciona el rango de años", 
-    min_value=int(df["Año"].min()), 
-    max_value=int(df["Año"].max()), 
-    value=(2010, 2025)
-)
+########################################################################################################
 
 # Filtrar datos según el rango de años seleccionado
 filtered_data = df[(df["Año"] >= min_year) & (df["Año"] <= max_year)]
