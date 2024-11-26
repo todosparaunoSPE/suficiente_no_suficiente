@@ -41,7 +41,7 @@ data = {
 df = pd.DataFrame(data)
 
 # Configuración de la página de Streamlit
-st.set_page_config(page_title="Evolución Salarial", layout="wide")
+#st.set_page_config(page_title="Evolución Salarial", layout="wide")
 st.title("Gráfico Interactivo de Evolución del Salario Mínimo")
 
 # Barra lateral de ayuda
